@@ -1,6 +1,8 @@
 // Package ptrutil provides utility functions for working with pointers.
 package ptrutil
 
+import "reflect"
+
 // ToValue converts a pointer to its value.
 // If the pointer is nil, it returns the zero value of the type.
 //
@@ -30,5 +32,9 @@ func ToValue[T any](ptr *T) T {
 //		fmt.Println(*ptr) // Output: 42
 //	}
 func ToPointer[T any](value T) *T {
+	if reflect.ValueOf(value).Kind() == reflect.Ptr && reflect.ValueOf(value).IsNil() {
+		return nil
+	}
+
 	return &value
 }
