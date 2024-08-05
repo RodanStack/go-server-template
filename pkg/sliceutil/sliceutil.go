@@ -1,5 +1,5 @@
-// Package sliceutils provides utility functions for working with slices.
-package sliceutils
+// Package sliceutil provides utility functions for working with slices.
+package sliceutil
 
 // Contains checks if a slice contains a specific value.
 // It returns true if the value is found, otherwise false.

@@ -1,5 +1,5 @@
-// Package ptrutils provides utility functions for working with pointers.
-package ptrutils
+// Package ptrutil provides utility functions for working with pointers.
+package ptrutil
 
 // ToValue converts a pointer to its value.
 // If the pointer is nil, it returns the zero value of the type.
