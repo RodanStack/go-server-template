@@ -1,15 +1,17 @@
 package apierr
 
+import "net/http"
+
 var (
-	// ApiErrBadRequest is returned when the request has missing or invalid parameters.
-	ApiErrBadRequest = New(400, "Bad request")
+	// ErrBadRequest is returned when the request has missing or invalid parameters.
+	ErrBadRequest = New(http.StatusBadRequest, "Bad request")
 
-	// ApiErrUnauthorized is returned when the request requires authentication.
-	ApiErrUnauthorized = New(401, "Unauthorized")
+	// ErrUnauthorized is returned when the request requires authentication.
+	ErrUnauthorized = New(http.StatusUnauthorized, "Unauthorized")
 
-	// ApiErrForbidden is returned when the request is not allowed.
-	ApiErrForbidden = New(403, "Forbidden")
+	// ErrForbidden is returned when the request is not allowed.
+	ErrForbidden = New(http.StatusForbidden, "Forbidden")
 
-	// ApiErrNotFound is returned when the requested resource is not found.
-	ApiErrNotFound = New(404, "Not found")
+	// ErrNotFound is returned when the requested resource is not found.
+	ErrNotFound = New(http.StatusNotFound, "Not found")
 )
