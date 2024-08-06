@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// TraceIDMiddleware generates a trace ID for each request and adds it to the context
+// TraceIDMiddleware generates a trace ID for each request and adds it to the context.
 func TraceIDMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		traceID := uuid.New().String()

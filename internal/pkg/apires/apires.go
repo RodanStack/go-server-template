@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Success function to send success response
+// Success function to send success response.
 func Success(c *gin.Context, message string, data interface{}) {
 	if !c.Writer.Written() {
 		c.JSON(http.StatusOK, Response{
@@ -17,7 +17,7 @@ func Success(c *gin.Context, message string, data interface{}) {
 	}
 }
 
-// Created function to send created response
+// Created function to send created response.
 func Created(c *gin.Context, message string, data interface{}) {
 	if !c.Writer.Written() {
 		c.JSON(http.StatusCreated, Response{
@@ -28,14 +28,14 @@ func Created(c *gin.Context, message string, data interface{}) {
 	}
 }
 
-// NoContent function to send no content response
+// NoContent function to send no content response.
 func NoContent(c *gin.Context) {
 	if !c.Writer.Written() {
 		c.JSON(http.StatusNoContent, nil)
 	}
 }
 
-// Error function to send error response
+// Error function to send error response.
 func Error(c *gin.Context, statusCode int, message string, err error, traceID string) {
 	if !c.Writer.Written() {
 		c.JSON(statusCode, ErrorResponse{
@@ -47,7 +47,7 @@ func Error(c *gin.Context, statusCode int, message string, err error, traceID st
 	}
 }
 
-// ValidationError function to send validation error response
+// ValidationError function to send validation error response.
 func ValidationError(c *gin.Context, message string, fields map[string]string, traceID string) {
 	if !c.Writer.Written() {
 		c.JSON(http.StatusBadRequest, ErrorResponse{
