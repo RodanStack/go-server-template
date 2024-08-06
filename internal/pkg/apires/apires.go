@@ -6,42 +6,55 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Success(c *gin.Context, message string, data interface{}, meta interface{}) {
-	c.JSON(http.StatusOK, Response{
-		Status:  StatusSuccess,
-		Message: message,
-		Data:    data,
-		Meta:    meta,
-	})
+// Success function to send success response
+func Success(c *gin.Context, message string, data interface{}) {
+	if !c.Writer.Written() {
+		c.JSON(http.StatusOK, Response{
+			Status:  StatusSuccess,
+			Message: message,
+			Data:    data,
+		})
+	}
 }
 
-func Created(c *gin.Context, message string, data interface{}, meta interface{}) {
-	c.JSON(http.StatusCreated, Response{
-		Status:  StatusSuccess,
-		Message: message,
-		Data:    data,
-		Meta:    meta,
-	})
+// Created function to send created response
+func Created(c *gin.Context, message string, data interface{}) {
+	if !c.Writer.Written() {
+		c.JSON(http.StatusCreated, Response{
+			Status:  StatusSuccess,
+			Message: message,
+			Data:    data,
+		})
+	}
 }
 
+// NoContent function to send no content response
 func NoContent(c *gin.Context) {
-	c.JSON(http.StatusNoContent, nil)
+	if !c.Writer.Written() {
+		c.JSON(http.StatusNoContent, nil)
+	}
 }
 
+// Error function to send error response
 func Error(c *gin.Context, statusCode int, message string, err error, traceID string) {
-	c.JSON(statusCode, ErrorResponse{
-		Status:  StatusError,
-		Message: message,
-		Error:   err.Error(),
-		TraceID: traceID,
-	})
+	if !c.Writer.Written() {
+		c.JSON(statusCode, ErrorResponse{
+			Status:  StatusError,
+			Message: message,
+			Error:   err.Error(),
+			TraceID: traceID,
+		})
+	}
 }
 
+// ValidationError function to send validation error response
 func ValidationError(c *gin.Context, message string, fields map[string]string, traceID string) {
-	c.JSON(http.StatusBadRequest, ErrorResponse{
-		Status:  StatusError,
-		Message: message,
-		Fields:  fields,
-		TraceID: traceID,
-	})
+	if !c.Writer.Written() {
+		c.JSON(http.StatusBadRequest, ErrorResponse{
+			Status:  StatusError,
+			Message: message,
+			Fields:  fields,
+			TraceID: traceID,
+		})
+	}
 }
