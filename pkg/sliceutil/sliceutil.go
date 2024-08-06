@@ -19,3 +19,12 @@ func Contains[T comparable](slice []T, val T) bool {
 	}
 	return false
 }
+
+// Concat concatenates multiple slices into a single slice.
+func Concat[T any](slices ...[]T) []T {
+	var result []T
+	for _, slice := range slices {
+		result = append(result, slice...)
+	}
+	return result
+}
