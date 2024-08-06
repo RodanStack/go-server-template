@@ -19,19 +19,3 @@ func Contains[T comparable](slice []T, val T) bool {
 	}
 	return false
 }
-
-// IsBetween checks if a value of any ordered type is between a minimum and maximum value (inclusive).
-//
-// Example usage:
-//
-//	func main() {
-//		var value uint = 5
-//		min, max := 1, 10
-//		inRange := IsBetween(value, min, max)
-//		fmt.Println(inRange) // Output: true
-//	}
-func IsBetween[
-	T ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~float32 | ~float64,
-](value, min, max T) bool {
-	return value >= min && value <= max
-}
