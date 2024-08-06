@@ -7,21 +7,35 @@ import (
 )
 
 func TestNew(t *testing.T) {
-	err := apierr.New(http.StatusNotFound, "Not Found")
-	if err.StatusCode != http.StatusNotFound {
-		t.Errorf("New(404, \"Not Found\").StatusCode = %v; want 404", err.StatusCode)
+	tests := []struct {
+		name       string
+		statusCode int
+		message    string
+		wantStatus int
+		wantMsg    string
+	}{
+		{"NotFound", http.StatusNotFound, "Not Found", http.StatusNotFound, "Not Found"},
+		{"BadRequest", http.StatusBadRequest, "Bad Request", http.StatusBadRequest, "Bad Request"},
+		{
+			"InternalServerError",
+			http.StatusInternalServerError,
+			"Internal Server Error",
+			http.StatusInternalServerError,
+			"Internal Server Error",
+		},
+		{"EmptyMessage", http.StatusBadRequest, "", http.StatusBadRequest, ""},
+		{"ZeroStatusCode", 0, "Zero Status Code", 0, "Zero Status Code"},
 	}
-	if err.Message != "Not Found" {
-		t.Errorf("New(404, \"Not Found\").Message = %v; want \"Not Found\"", err.Message)
-	}
-}
 
-func TestNewWithEmptyMessage(t *testing.T) {
-	err := apierr.New(http.StatusBadRequest, "")
-	if err.StatusCode != http.StatusBadRequest {
-		t.Errorf("New(400, \"\").StatusCode = %v; want 400", err.StatusCode)
-	}
-	if err.Message != "" {
-		t.Errorf("New(400, \"\").Message = %v; want \"\"", err.Message)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := apierr.New(tt.statusCode, tt.message)
+			if err.StatusCode != tt.wantStatus {
+				t.Errorf("New(%d, %q).StatusCode = %v; want %v", tt.statusCode, tt.message, err.StatusCode, tt.wantStatus)
+			}
+			if err.Message != tt.wantMsg {
+				t.Errorf("New(%d, %q).Message = %v; want %v", tt.statusCode, tt.message, err.Message, tt.wantMsg)
+			}
+		})
 	}
 }
