@@ -1,19 +1,27 @@
 package main
 
 import (
+	"go-server-template/internal/cmd"
 	"log"
 
 	"github.com/joho/godotenv"
 )
 
+func loadEnv() error {
+	return godotenv.Load()
+}
+
+func executeRootCmd() error {
+	rootCmd := cmd.NewRootCmd()
+	return rootCmd.Execute()
+}
+
 func main() {
-	err := godotenv.Load()
-	if err != nil {
+	if err := loadEnv(); err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
-	rootCmd := NewRootCmd()
-	if err = rootCmd.Execute(); err != nil {
-		log.Fatalf("Error executing App: %v", err)
+	if err := executeRootCmd(); err != nil {
+		log.Fatal(err)
 	}
 }
