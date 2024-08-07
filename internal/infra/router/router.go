@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/fx"
 )
 
 type Router struct {
@@ -12,6 +13,7 @@ type Router struct {
 }
 
 type Dependencies struct {
+	fx.In
 }
 
 func NewRouter(_ Dependencies) *Router {
