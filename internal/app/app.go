@@ -44,11 +44,11 @@ func Run() {
 	log.Println("App done")
 }
 
-func startServer(lifecycle fx.Lifecycle, r *router.Router) {
+func startServer(lifecycle fx.Lifecycle, r *router.Router, env *config.Env) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(_ context.Context) error {
 			go func() {
-				if err := r.Engine.Run(":8080"); err != nil {
+				if err := r.Run(":" + env.ServerPort); err != nil {
 					log.Fatal(err)
 				}
 			}()
