@@ -6,6 +6,7 @@ import (
 	"go-server-template/internal/app/routes"
 	"go-server-template/internal/infra"
 	"go-server-template/internal/infra/router"
+	"go-server-template/pkg/config"
 	"log"
 
 	"go.uber.org/fx"
@@ -15,6 +16,7 @@ func Run() {
 	log.Println("Running the app")
 
 	opt := fx.Options(
+		fx.Provide(config.NewEnv),
 		controllers.NewModule(),
 		routes.NewModule(),
 		infra.NewModule(),
