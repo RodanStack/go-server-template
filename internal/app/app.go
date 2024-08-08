@@ -19,9 +19,9 @@ func Run() {
 	opt := fx.Options(
 		fx.Provide(config.NewEnv),
 		fx.Provide(logger.NewLogger),
+		infra.NewModule(),
 		controllers.NewModule(),
 		routes.NewModule(),
-		infra.NewModule(),
 		fx.Invoke(
 			startServer,
 		),
