@@ -5,6 +5,7 @@ import "github.com/spf13/viper"
 type Env struct {
 	ServerPort         string
 	MaxMultipartMemory int64
+	Environment        string
 }
 
 func NewEnv() *Env {
@@ -23,5 +24,6 @@ func NewEnv() *Env {
 	return &Env{
 		ServerPort:         viper.GetString("SERVER_PORT"),
 		MaxMultipartMemory: viper.GetInt64("MAX_MULTIPART_MEMORY"),
+		Environment:        viper.GetString("ENVIRONMENT"),
 	}
 }
