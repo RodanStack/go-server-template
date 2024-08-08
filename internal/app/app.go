@@ -7,6 +7,7 @@ import (
 	"go-server-template/internal/infra"
 	"go-server-template/internal/infra/router"
 	"go-server-template/pkg/config"
+	"go-server-template/pkg/logger"
 	"log"
 
 	"go.uber.org/fx"
@@ -17,6 +18,7 @@ func Run() {
 
 	opt := fx.Options(
 		fx.Provide(config.NewEnv),
+		fx.Provide(logger.NewLogger),
 		controllers.NewModule(),
 		routes.NewModule(),
 		infra.NewModule(),
