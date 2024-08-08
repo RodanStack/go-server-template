@@ -1,10 +1,13 @@
 package logger
 
 import (
+	"errors"
 	"go-server-template/pkg/config"
 	"log"
+	"syscall"
 
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 type Logger struct {
@@ -19,10 +22,9 @@ func NewLogger(env *config.Env) *Logger {
 	switch environment {
 	case "production":
 		zapConfig = zap.NewProductionConfig()
-	case "development":
-		zapConfig = zap.NewDevelopmentConfig()
 	default:
 		zapConfig = zap.NewDevelopmentConfig()
+		zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 
 	zapLogger, err := zapConfig.Build()
@@ -30,12 +32,10 @@ func NewLogger(env *config.Env) *Logger {
 		log.Fatalf("can't initialize zap logger: %v", err)
 	}
 
-	defer func() {
-		err = zapLogger.Sync() // flushes buffer, if any
-		if err != nil {
-			log.Fatalf("can't sync zap logger: %v", err)
-		}
-	}()
+	err = zapLogger.Sync() // flushes buffer, if any
+	if err != nil && !errors.Is(err, syscall.ENOTTY) {
+		log.Fatalf("can't sync zap logger: %v", err)
+	}
 
 	return &Logger{zapLogger}
 }
