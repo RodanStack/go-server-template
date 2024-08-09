@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"go-server-template/internal/infrastructure"
-	"go-server-template/internal/infrastructure/router"
+	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/restapi/controllers"
 	"go-server-template/internal/restapi/routes"
 	"go-server-template/pkg"
