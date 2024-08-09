@@ -1,4 +1,4 @@
-package app
+package bootstrap
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 	"go.uber.org/fx"
 )
 
-func Run() {
+func RunRestAPIServer() {
 	log.Println("Running the app")
 
 	opt := fx.Options(
