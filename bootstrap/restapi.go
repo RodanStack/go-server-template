@@ -2,8 +2,9 @@ package bootstrap
 
 import (
 	"context"
-	"go-server-template/internal/infra"
-	"go-server-template/internal/infra/router"
+
+	"go-server-template/internal/infrastructure"
+	"go-server-template/internal/infrastructure/router"
 	"go-server-template/internal/restapi/controllers"
 	"go-server-template/internal/restapi/routes"
 	"go-server-template/pkg"
@@ -18,7 +19,7 @@ func RunRestAPIServer() {
 
 	opt := fx.Options(
 		pkg.NewModule(),
-		infra.NewModule(),
+		infrastructure.NewModule(),
 		controllers.NewModule(),
 		routes.NewModule(),
 		fx.Invoke(

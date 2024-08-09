@@ -1,7 +1,7 @@
-package infra
+package infrastructure
 
 import (
-	"go-server-template/internal/infra/router"
+	"go-server-template/internal/infrastructure/router"
 
 	"go.uber.org/fx"
 )
