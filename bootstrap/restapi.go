@@ -2,10 +2,10 @@ package bootstrap
 
 import (
 	"context"
-	"go-server-template/internal/app/controllers"
-	"go-server-template/internal/app/routes"
 	"go-server-template/internal/infra"
 	"go-server-template/internal/infra/router"
+	"go-server-template/internal/restapi/controllers"
+	"go-server-template/internal/restapi/routes"
 	"go-server-template/pkg"
 	"go-server-template/pkg/config"
 	"log"
