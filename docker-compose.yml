@@ -2,8 +2,8 @@ version: "3.8"
 services:
   postgres:
     container_name: go-server-template_db
-    image: postgres
-    hostname: localhost
+    image: postgres:16
+    hostname: postgres
     ports:
       - "5432:5432"
     environment:
@@ -16,7 +16,7 @@ services:
 
   pgadmin:
     container_name: go-server-template-pgadmin
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     depends_on:
       - postgres
     ports:
@@ -24,7 +24,11 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
 
 volumes:
   postgres-data:
+  pgadmin-data:
