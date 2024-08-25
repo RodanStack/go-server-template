@@ -8,10 +8,9 @@ import (
 )
 
 func NewModule() fx.Option {
-	return fx.Options(
-		fx.Provide(
-			controllers.NewModule(),
-			routes.NewModule(),
-		),
+	return fx.Module(
+		"restapi",
+		controllers.NewModule(),
+		routes.NewModule(),
 	)
 }
