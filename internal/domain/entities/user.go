@@ -10,7 +10,7 @@ const (
 )
 
 type User struct {
-	ID        int // TODO: Change to uuid.UUID
+	ID        uint
 	Username  string
 	Password  string
 	Email     string
