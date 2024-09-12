@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"go-server-template/pkg/config"
+	"go-server-template/pkg/logger"
 	"log"
 	"net"
 	"time"
@@ -11,7 +12,12 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func NewDatabase(env *config.Env) *pgxpool.Pool {
+type Database struct {
+	conn   *pgxpool.Pool
+	logger *logger.Logger
+}
+
+func NewDatabase(env *config.Env, logger *logger.Logger) *Database {
 	dbURL := fmt.Sprintf("postgres://%s:%s@%s",
 		env.DBUser, env.DBPassword, net.JoinHostPort(env.DBHost, env.DBPort)) + fmt.Sprintf("/%s?sslmode=disable", env.DBName)
 	config, err := pgxpool.ParseConfig(dbURL)
@@ -28,5 +34,15 @@ func NewDatabase(env *config.Env) *pgxpool.Pool {
 		log.Fatalf("Unable to create connection pool: %v\n", err)
 	}
 
-	return pool
+	return &Database{
+		conn:   pool,
+		logger: logger,
+	}
+}
+
+func (d *Database) Close() {
+	if d.conn != nil {
+		d.conn.Close()
+		d.logger.Info("Database connection closed")
+	}
 }
