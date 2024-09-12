@@ -8,7 +8,7 @@ endif
 GOOSE_BIN=goose
 
 # Database connection details
-DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@localhost:5432/$(DB_NAME)?sslmode=disable
+DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable
 
 # Migration directory
 MIGRATIONS_DIR = db/migrations
