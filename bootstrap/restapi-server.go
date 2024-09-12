@@ -2,12 +2,15 @@ package bootstrap
 
 import (
 	"context"
+	"errors"
 	"go-server-template/apps/restapi"
 	"go-server-template/internal/infrastructure"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/pkg"
 	"go-server-template/pkg/config"
+	"go-server-template/pkg/logger"
 	"log"
+	"syscall"
 
 	"go.uber.org/fx"
 )
@@ -43,7 +46,7 @@ func RunRestAPIServer() {
 	log.Println("App done")
 }
 
-func startServer(lifecycle fx.Lifecycle, r *router.Router, env *config.Env) {
+func startServer(lifecycle fx.Lifecycle, r *router.Router, env *config.Env, logger *logger.Logger) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(_ context.Context) error {
 			go func() {
@@ -54,6 +57,10 @@ func startServer(lifecycle fx.Lifecycle, r *router.Router, env *config.Env) {
 			return nil
 		},
 		OnStop: func(_ context.Context) error {
+			// flushes buffer, if any
+			if err := logger.Sync(); err != nil && !errors.Is(err, syscall.ENOTTY) {
+				log.Fatalf("can't sync zap logger: %v", err)
+			}
 			log.Println("Stopping the server")
 			return nil
 		},

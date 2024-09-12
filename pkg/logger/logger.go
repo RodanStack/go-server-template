@@ -8,6 +8,7 @@ import (
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"golang.org/x/sys/unix"
 )
 
 type Logger struct {
@@ -27,15 +28,20 @@ func NewLogger(env *config.Env) *Logger {
 		zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 	}
 
-	zapLogger, err := zapConfig.Build()
+	zapLogger, err := zapConfig.Build(zap.AddCallerSkip(1))
 	if err != nil {
 		log.Fatalf("can't initialize zap logger: %v", err)
 	}
 
-	err = zapLogger.Sync() // flushes buffer, if any
-	if err != nil && !errors.Is(err, syscall.ENOTTY) {
-		log.Fatalf("can't sync zap logger: %v", err)
+	return &Logger{zapLogger}
+}
+
+func (l *Logger) Sync() error {
+	// Try syncing and handle errors like ENOTTY gracefully
+	err := l.Logger.Sync()
+	if err != nil && !errors.Is(err, unix.ENOTTY) && !errors.Is(err, syscall.ENOTTY) {
+		return err
 	}
 
-	return &Logger{zapLogger}
+	return nil
 }
