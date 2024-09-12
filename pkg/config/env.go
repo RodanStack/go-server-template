@@ -6,6 +6,8 @@ type Env struct {
 	ServerPort         string
 	MaxMultipartMemory int64
 	Environment        string
+	DBPort             string
+	DBHost             string
 	DBUser             string
 	DBPassword         string
 	DBName             string
@@ -28,6 +30,8 @@ func NewEnv() *Env {
 		ServerPort:         viper.GetString("SERVER_PORT"),
 		MaxMultipartMemory: viper.GetInt64("MAX_MULTIPART_MEMORY"),
 		Environment:        viper.GetString("ENVIRONMENT"),
+		DBPort:             viper.GetString("DB_PORT"),
+		DBHost:             viper.GetString("DB_HOST"),
 		DBUser:             viper.GetString("DB_USER"),
 		DBPassword:         viper.GetString("DB_PASSWORD"),
 		DBName:             viper.GetString("DB_NAME"),
