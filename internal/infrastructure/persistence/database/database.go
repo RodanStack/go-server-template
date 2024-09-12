@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"go-server-template/pkg/config"
 	"go-server-template/pkg/logger"
-	"log"
 	"net"
 	"time"
 
@@ -22,7 +21,7 @@ func NewDatabase(env *config.Env, logger *logger.Logger) *Database {
 		env.DBUser, env.DBPassword, net.JoinHostPort(env.DBHost, env.DBPort)) + fmt.Sprintf("/%s?sslmode=disable", env.DBName)
 	config, err := pgxpool.ParseConfig(dbURL)
 	if err != nil {
-		log.Fatalf("Unable to parse DATABASE_URL: %v\n", err)
+		logger.Errorf("Unable to parse DATABASE_URL: %v\n", err)
 	}
 
 	config.MaxConns = 10
@@ -31,7 +30,7 @@ func NewDatabase(env *config.Env, logger *logger.Logger) *Database {
 
 	pool, err := pgxpool.NewWithConfig(context.Background(), config)
 	if err != nil {
-		log.Fatalf("Unable to create connection pool: %v\n", err)
+		logger.Errorf("Unable to create connection pool: %v\n", err)
 	}
 
 	return &Database{
