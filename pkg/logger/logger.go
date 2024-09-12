@@ -2,6 +2,7 @@ package logger
 
 import (
 	"errors"
+	"fmt"
 	"go-server-template/pkg/config"
 	"log"
 	"syscall"
@@ -44,4 +45,8 @@ func (l *Logger) Sync() error {
 	}
 
 	return nil
+}
+
+func (l *Logger) Errorf(format string, args ...interface{}) {
+	l.Error(fmt.Sprintf(format, args...))
 }
