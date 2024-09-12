@@ -9,6 +9,9 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	goose "github.com/pressly/goose/v3"
+
+	"github.com/jackc/pgx/v5/stdlib"
 )
 
 type Database struct {
@@ -45,3 +48,37 @@ func (d *Database) Close() {
 		d.logger.Info("Database connection closed")
 	}
 }
+
+func (d *Database) RunMigrations() {
+	d.logger.Info("Running migrations")
+
+	if err := goose.SetDialect("postgres"); err != nil {
+		panic(err)
+	}
+
+	db := stdlib.OpenDBFromPool(d.conn)
+	if err := goose.Up(db, "db/migrations"); err != nil {
+		panic(err)
+	}
+	if err := db.Close(); err != nil {
+		panic(err)
+	}
+
+	d.logger.Info("Migrations applied")
+}
+
+// alternative way to run migrations
+// func (d *Database) RunMigrations() {
+// 	d.logger.Info("Running migrations")
+// 	db, err := goose.OpenDBWithDriver("postgres", d.dbURL)
+// 	if err != nil {
+// 		d.logger.Errorf("Unable to open database: %v\n", err)
+// 	}
+// 	defer db.Close()
+
+// 	if err = goose.Up(db, "db/migrations"); err != nil {
+// 		d.logger.Errorf("Unable to apply migrations: %v\n", err)
+// 	}
+
+// 	d.logger.Info("Migrations applied")
+// }

@@ -6,6 +6,7 @@ import (
 	"go-server-template/apps/restapi"
 	"go-server-template/internal/infrastructure"
 	"go-server-template/internal/infrastructure/http/router"
+	"go-server-template/internal/infrastructure/persistence/database"
 	"go-server-template/pkg"
 	"go-server-template/pkg/config"
 	"go-server-template/pkg/logger"
@@ -46,19 +47,34 @@ func RunRestAPIServer() {
 	log.Println("App done")
 }
 
-func startServer(lifecycle fx.Lifecycle, r *router.Router, env *config.Env, logger *logger.Logger) {
+type StartServerParams struct {
+	fx.In
+
+	Router   *router.Router
+	Env      *config.Env
+	Logger   *logger.Logger
+	Database *database.Database
+}
+
+func startServer(lifecycle fx.Lifecycle, params StartServerParams) {
 	lifecycle.Append(fx.Hook{
 		OnStart: func(_ context.Context) error {
+			params.Logger.Info("Starting the server")
+
+			params.Database.RunMigrations()
+
 			go func() {
-				if err := r.Run(":" + env.ServerPort); err != nil {
+				if err := params.Router.Run(":" + params.Env.ServerPort); err != nil {
 					log.Fatal(err)
 				}
 			}()
 			return nil
 		},
 		OnStop: func(_ context.Context) error {
+			params.Logger.Info("Stopping the server")
+			params.Database.Close()
 			// flushes buffer, if any
-			if err := logger.Sync(); err != nil && !errors.Is(err, syscall.ENOTTY) {
+			if err := params.Logger.Sync(); err != nil && !errors.Is(err, syscall.ENOTTY) {
 				log.Fatalf("can't sync zap logger: %v", err)
 			}
 			log.Println("Stopping the server")
