@@ -24,7 +24,7 @@ func RunRestAPIServer() {
 		),
 	)
 
-	app := fx.New(opt)
+	app := fx.New(opt, fx.NopLogger)
 
 	if err := app.Start(context.Background()); err != nil {
 		log.Fatal(err)
