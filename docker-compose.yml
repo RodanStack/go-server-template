@@ -1,5 +1,19 @@
 version: "3.8"
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - .:/app
+      - tmp-volume:/app/tmp
+    env_file:
+      - .env
+    container_name: go-server-template
+    depends_on:
+      - postgres
   postgres:
     container_name: go-server-template_db
     image: postgres:16
@@ -32,3 +46,4 @@ services:
 volumes:
   postgres-data:
   pgadmin-data:
+  tmp-volume:
