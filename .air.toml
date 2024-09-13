@@ -5,9 +5,9 @@ testdata_dir = "testdata"
 [build]
   args_bin = []
 #   bin = "/app/__debug_bin" # for without Delve and normal build
-  full_bin = "dlv exec --accept-multiclient --log --headless --continue --listen :2345 --api-version 2 /app/__debug_bin"
+  full_bin = "dlv exec --accept-multiclient --log --headless --continue --listen :2345 --api-version 2 /app/tmp/__debug_bin"
 
-  cmd = "go build -gcflags='all=-N -l' -o /app/__debug_bin /app/cmd/restapi-server/main.go"
+  cmd = "go build -gcflags='all=-N -l' -o /app/tmp/__debug_bin /app/cmd/restapi-server/main.go"
 #   cmd = "dlv build --output=/app/__debug_bin /app/cmd/restapi-server/main.go"  # Build with Delve
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]

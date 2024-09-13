@@ -8,6 +8,7 @@ services:
       - ${DEBUG_PORT}:2345
     volumes:
       - .:/app
+      - ./tmp:/app/tmp
     env_file:
       - .env
     container_name: go-server-template
@@ -45,4 +46,3 @@ services:
 volumes:
   postgres-data:
   pgadmin-data:
-  tmp-volume:
