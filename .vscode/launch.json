@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Golang Attach Debugger",
+      "port": 9229,
+      "request": "attach",
+      "type": "go",
+      "mode": "remote",
+      "showLog": true
+    }
+  ]
+}

@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+      - ${DEBUG_PORT}:2345
     volumes:
       - .:/app
     env_file:
