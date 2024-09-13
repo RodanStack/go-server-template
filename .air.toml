@@ -3,8 +3,8 @@ testdata_dir = "testdata"
 
 [build]
   args_bin = []
-  bin = "/app/tmp/main"
-  cmd = "go build -o /app/tmp/main /app/cmd/restapi-server/main.go"
+  bin = "/app/__debug_bin"
+  cmd = "go build -o /app/__debug_bin /app/cmd/restapi-server/main.go"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
