@@ -5,10 +5,10 @@ ifneq (,$(wildcard ./.env))
 endif
 
 # Tool
-GOOSE_BIN=goose
+GOOSE_BIN=docker compose exec web goose
 
 # Database connection details
-DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST_LOCAL):$(DB_PORT)/$(DB_NAME)?sslmode=disable
+DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable
 
 # Migration directory
 MIGRATIONS_DIR = db/migrations
