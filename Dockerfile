@@ -12,6 +12,8 @@ RUN apk del .build-deps
 ENV PATH="/go/bin:${PATH}"
 # Install goose for database migration
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+# Install sqlc for generating SQL code
+RUN go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 # Install air for hot reload
 RUN go install github.com/air-verse/air@latest
 # Copy all code files to the container

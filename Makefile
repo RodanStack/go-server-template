@@ -6,6 +6,13 @@ endif
 
 # Tool
 GOOSE_BIN=docker compose exec web goose
+SQLC_BIN=docker compose exec web sqlc
+
+#------------------------------------------------
+
+# For Migrations
+
+#------------------------------------------------
 
 # Database connection details
 DB_URL := postgres://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=disable
@@ -34,6 +41,19 @@ migrate-up:
 migrate-down:
 	$(GOOSE_BIN) -dir $(MIGRATIONS_DIR) postgres "$(DB_URL)" down
 
+#-------------------------------------------------
+
+# For SQLC
+
+#-------------------------------------------------
+
+SQLC_CONFIG_LOCATION = sqlc.yaml
+
+# Generate SQLC
+.PHONY: sqlc-generate
+sqlc-generate:
+	$(SQLC_BIN) generate -f $(SQLC_CONFIG_LOCATION)
+
 # Help
 .PHONY: help
 help:
@@ -43,3 +63,4 @@ help:
 	@echo "  make migrate-up       - Apply all migrations"
 	@echo "  make migrate-down     - Rollback the last migration"
 	@echo "  make help             - Display this help message"
+	@echo "  make sqlc-generate   - Generate SQLC"
