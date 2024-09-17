@@ -14,6 +14,8 @@ func NewUserRepository(r *Repository) *UserRepository {
 }
 
 func (r *UserRepository) GetUsers() ([]sqlc.GetUsersRow, error) {
+	r.logger.Info("UserRepository.GetUsers")
+
 	const pageSize = 10
 	arg := sqlc.GetUsersParams{
 		Limit:  pageSize,

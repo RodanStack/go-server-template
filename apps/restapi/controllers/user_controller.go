@@ -35,5 +35,5 @@ func (u *UserController) GetUsers(c *gin.Context) {
 		return
 	}
 
-	apires.Success(c, "Success to get users", users)
+	apires.Success(c, "", users)
 }
