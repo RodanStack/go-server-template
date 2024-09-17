@@ -14,7 +14,7 @@ import (
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (username, password, email, status)
 VALUES ($1, $2, $3, $4)
-RETURNING id, username, password, email, created_at, updated_at, status
+RETURNING id, username, email, created_at, updated_at, status
 `
 
 type CreateUserParams struct {
@@ -24,18 +24,26 @@ type CreateUserParams struct {
 	Status   UserStatus `json:"status"`
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
+type CreateUserRow struct {
+	ID        int64              `json:"id"`
+	Username  string             `json:"username"`
+	Email     string             `json:"email"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `json:"updated_at"`
+	Status    UserStatus         `json:"status"`
+}
+
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (CreateUserRow, error) {
 	row := q.db.QueryRow(ctx, createUser,
 		arg.Username,
 		arg.Password,
 		arg.Email,
 		arg.Status,
 	)
-	var i User
+	var i CreateUserRow
 	err := row.Scan(
 		&i.ID,
 		&i.Username,
-		&i.Password,
 		&i.Email,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -45,18 +53,26 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 }
 
 const getUserByID = `-- name: GetUserByID :one
-SELECT id, username, password, email, created_at, updated_at, status
+SELECT id, username, email, created_at, updated_at, status
 FROM users
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetUserByID(ctx context.Context, id int64) (User, error) {
+type GetUserByIDRow struct {
+	ID        int64              `json:"id"`
+	Username  string             `json:"username"`
+	Email     string             `json:"email"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `json:"updated_at"`
+	Status    UserStatus         `json:"status"`
+}
+
+func (q *Queries) GetUserByID(ctx context.Context, id int64) (GetUserByIDRow, error) {
 	row := q.db.QueryRow(ctx, getUserByID, id)
-	var i User
+	var i GetUserByIDRow
 	err := row.Scan(
 		&i.ID,
 		&i.Username,
-		&i.Password,
 		&i.Email,
 		&i.CreatedAt,
 		&i.UpdatedAt,
