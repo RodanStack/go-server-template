@@ -26,7 +26,7 @@ func NewUserRoutes(params userRoutesParams) *UserRoutes {
 func (u *UserRoutes) RegisterRoutes() {
 	// Register routes here
 
-	routes := u.router.Group("/api/v1/users")
+	routes := u.router.Group("users")
 
 	routes.GET("/", u.controller.GetUsers)
 }
