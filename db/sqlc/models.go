@@ -32,8 +32,8 @@ func (e *UserStatus) Scan(src interface{}) error {
 }
 
 type NullUserStatus struct {
-	UserStatus UserStatus
-	Valid      bool // Valid is true if UserStatus is not NULL
+	UserStatus UserStatus `json:"user_status"`
+	Valid      bool       `json:"valid"` // Valid is true if UserStatus is not NULL
 }
 
 // Scan implements the Scanner interface.
@@ -55,11 +55,11 @@ func (ns NullUserStatus) Value() (driver.Value, error) {
 }
 
 type User struct {
-	ID        int64
-	Username  string
-	Password  string
-	Email     string
-	CreatedAt pgtype.Timestamptz
-	UpdatedAt pgtype.Timestamptz
-	Status    UserStatus
+	ID        int64              `json:"id"`
+	Username  string             `json:"username"`
+	Password  string             `json:"password"`
+	Email     string             `json:"email"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `json:"updated_at"`
+	Status    UserStatus         `json:"status"`
 }

@@ -18,10 +18,10 @@ RETURNING id, username, password, email, created_at, updated_at, status
 `
 
 type CreateUserParams struct {
-	Username string
-	Password string
-	Email    string
-	Status   UserStatus
+	Username string     `json:"username"`
+	Password string     `json:"password"`
+	Email    string     `json:"email"`
+	Status   UserStatus `json:"status"`
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
@@ -72,17 +72,17 @@ ORDER BY id ASC LIMIT $1 OFFSET $2
 `
 
 type GetUsersParams struct {
-	Limit  int32
-	Offset int32
+	Limit  int32 `json:"limit"`
+	Offset int32 `json:"offset"`
 }
 
 type GetUsersRow struct {
-	ID        int64
-	Username  string
-	Email     string
-	CreatedAt pgtype.Timestamptz
-	UpdatedAt pgtype.Timestamptz
-	Status    UserStatus
+	ID        int64              `json:"id"`
+	Username  string             `json:"username"`
+	Email     string             `json:"email"`
+	CreatedAt pgtype.Timestamptz `json:"created_at"`
+	UpdatedAt pgtype.Timestamptz `json:"updated_at"`
+	Status    UserStatus         `json:"status"`
 }
 
 func (q *Queries) GetUsers(ctx context.Context, arg GetUsersParams) ([]GetUsersRow, error) {
