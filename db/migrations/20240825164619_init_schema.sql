@@ -1,6 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
 
+-- Create user_status enum type
+CREATE TYPE user_status AS ENUM ('active', 'inactive', 'suspended');
+
 CREATE TABLE users (
     id BIGSERIAL PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
@@ -8,7 +11,7 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) NOT NULL DEFAULT 'active',
+    status user_status NOT NULL DEFAULT 'active',
     CHECK (username <> ''),
     CHECK (password <> ''),
     CHECK (email <> '')

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"go-server-template/apps/restapi"
+	"go-server-template/db"
 	"go-server-template/internal/infrastructure"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/infrastructure/persistence/database"
@@ -23,6 +24,7 @@ func RunRestAPIServer() {
 		pkg.NewModule(),
 		infrastructure.NewModule(),
 		restapi.NewModule(),
+		db.NewModule(),
 		fx.Invoke(
 			startServer,
 		),

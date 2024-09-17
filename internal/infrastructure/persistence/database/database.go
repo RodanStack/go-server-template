@@ -15,7 +15,7 @@ import (
 )
 
 type Database struct {
-	conn   *pgxpool.Pool
+	*pgxpool.Pool
 	logger *logger.Logger
 }
 
@@ -37,14 +37,14 @@ func NewDatabase(env *config.Env, logger *logger.Logger) *Database {
 	}
 
 	return &Database{
-		conn:   pool,
+		Pool:   pool,
 		logger: logger,
 	}
 }
 
 func (d *Database) Close() {
-	if d.conn != nil {
-		d.conn.Close()
+	if d.Pool != nil {
+		d.Pool.Close()
 		d.logger.Info("Database connection closed")
 	}
 }
@@ -56,7 +56,7 @@ func (d *Database) RunMigrations() {
 		panic(err)
 	}
 
-	db := stdlib.OpenDBFromPool(d.conn)
+	db := stdlib.OpenDBFromPool(d.Pool)
 	if err := goose.Up(db, "db/migrations"); err != nil {
 		panic(err)
 	}
