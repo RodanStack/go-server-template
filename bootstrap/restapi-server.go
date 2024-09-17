@@ -5,6 +5,7 @@ import (
 	"errors"
 	"go-server-template/apps/restapi"
 	"go-server-template/db"
+	"go-server-template/internal/domain"
 	"go-server-template/internal/infrastructure"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/infrastructure/persistence/database"
@@ -25,6 +26,7 @@ func RunRestAPIServer() {
 		infrastructure.NewModule(),
 		restapi.NewModule(),
 		db.NewModule(),
+		domain.NewModule(),
 		fx.Invoke(
 			startServer,
 		),

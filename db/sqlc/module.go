@@ -12,9 +12,9 @@ func NewModule() fx.Option {
 	)
 }
 
-func newQueries(db database.Database) *Queries {
+func newQueries(db *database.Database) *Queries {
 	// checking if db implements DBTX interface
-	var _ DBTX = &db
+	var _ DBTX = db
 
 	return New(db)
 }
