@@ -2,7 +2,7 @@ package service
 
 import (
 	"go-server-template/db/sqlc"
-	"go-server-template/internal/domain/repository"
+	"go-server-template/internal/core/repository"
 	"go-server-template/pkg/logger"
 )
 

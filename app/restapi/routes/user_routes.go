@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"go-server-template/apps/restapi/controllers"
+	"go-server-template/app/restapi/controllers"
 	"go-server-template/internal/infrastructure/http/router"
 
 	"go.uber.org/fx"

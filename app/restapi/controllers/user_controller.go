@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"go-server-template/internal/domain/service"
+	"go-server-template/internal/core/service"
 	"go-server-template/internal/pkg/apires"
 	"go-server-template/pkg/logger"
 	"net/http"

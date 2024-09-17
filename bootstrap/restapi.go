@@ -3,9 +3,9 @@ package bootstrap
 import (
 	"context"
 	"errors"
-	"go-server-template/apps/restapi"
+	"go-server-template/app/restapi"
 	"go-server-template/db"
-	"go-server-template/internal/domain"
+	"go-server-template/internal/core"
 	"go-server-template/internal/infrastructure"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/infrastructure/persistence/database"
@@ -18,7 +18,7 @@ import (
 	"go.uber.org/fx"
 )
 
-func RunRestAPIServer() {
+func RunRestAPI() {
 	log.Println("Running the app")
 
 	opt := fx.Options(
@@ -26,7 +26,7 @@ func RunRestAPIServer() {
 		infrastructure.NewModule(),
 		restapi.NewModule(),
 		db.NewModule(),
-		domain.NewModule(),
+		core.NewModule(),
 		fx.Invoke(
 			startServer,
 		),

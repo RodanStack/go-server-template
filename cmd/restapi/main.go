@@ -3,5 +3,5 @@ package main
 import "go-server-template/bootstrap"
 
 func main() {
-	bootstrap.RunRestAPIServer()
+	bootstrap.RunRestAPI()
 }
