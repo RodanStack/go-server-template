@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"go-server-template/internal/infrastructure/http/middleware"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/infrastructure/persistence/database"
 
@@ -12,6 +13,7 @@ func NewModule() fx.Option {
 		fx.Provide(
 			router.NewRouter,
 			database.NewDatabase,
+			middleware.NewModule,
 		),
 	)
 }
