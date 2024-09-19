@@ -1,8 +1,10 @@
 package service
 
 import (
+	"go-server-template/app/restapi/serializer"
 	"go-server-template/db/sqlc"
 	"go-server-template/internal/core/repository"
+	"go-server-template/internal/pkg/auth"
 	"go-server-template/pkg/logger"
 )
 
@@ -26,10 +28,20 @@ func (s *UserService) GetUsers() ([]sqlc.GetUsersRow, error) {
 	return users, nil
 }
 
-func (s *UserService) CreateUser(userParams *sqlc.CreateUserParams) (*sqlc.CreateUserRow, error) {
+func (s *UserService) CreateUser(userData *serializer.CreateUserRequest) (*sqlc.CreateUserRow, error) {
 	s.logger.Info("UserService.CreateUser")
 
-	user, err := s.userRepo.CreateUser(userParams)
+	hashedPassword, err := auth.HashPassword(userData.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := s.userRepo.CreateUser(&sqlc.CreateUserParams{
+		Username: userData.Username,
+		Password: hashedPassword,
+		Email:    userData.Email,
+		Status:   sqlc.UserStatusActive,
+	})
 	if err != nil {
 		return nil, err
 	}

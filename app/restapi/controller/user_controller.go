@@ -2,7 +2,6 @@ package controller
 
 import (
 	"go-server-template/app/restapi/serializer"
-	"go-server-template/db/sqlc"
 	"go-server-template/internal/core/service"
 	"go-server-template/internal/pkg/apires"
 	"go-server-template/pkg/logger"
@@ -46,17 +45,14 @@ func (u *UserController) CreateUser(c *gin.Context) {
 	var req serializer.CreateUserRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
+		u.logger.Errorf("Failed to bind request data: %v", err)
 		apires.Error(c, http.StatusBadRequest, "Invalid request data", err, "")
 		return
 	}
 
-	user, err := u.UserService.CreateUser(&sqlc.CreateUserParams{
-		Username: req.Username,
-		Password: req.Password,
-		Email:    req.Email,
-		Status:   sqlc.UserStatusActive,
-	})
+	user, err := u.UserService.CreateUser(&req)
 	if err != nil {
+		u.logger.Errorf("Failed to create user: %v", err)
 		apires.Error(c, http.StatusInternalServerError, "Failed to create user", err, "")
 		return
 	}
