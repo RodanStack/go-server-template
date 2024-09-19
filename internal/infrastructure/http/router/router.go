@@ -37,6 +37,10 @@ func NewRouter(deps Dependencies) *Router {
 
 	router.MaxMultipartMemory = maxMultipartMemory
 
+	if err := router.SetTrustedProxies(nil); err != nil {
+		panic(err)
+	}
+
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST", "OPTIONS", "DELETE"},
