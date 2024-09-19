@@ -2,31 +2,34 @@ package route
 
 import (
 	"go-server-template/app/restapi/controller"
+	"go-server-template/internal/infrastructure/http/middleware"
 	"go-server-template/internal/infrastructure/http/router"
 
 	"go.uber.org/fx"
 )
 
 type UserRoutes struct {
-	router     *router.Router
-	controller *controller.UserController
+	router        *router.Router
+	controller    *controller.UserController
+	jwtMiddleware *middleware.JWTMiddleware
 }
 
 type userRoutesParams struct {
 	fx.In
 
-	Router     *router.Router
-	Controller *controller.UserController
+	Router        *router.Router
+	Controller    *controller.UserController
+	JWTMiddleware *middleware.JWTMiddleware
 }
 
 func NewUserRoutes(params userRoutesParams) *UserRoutes {
-	return &UserRoutes{params.Router, params.Controller}
+	return &UserRoutes{params.Router, params.Controller, params.JWTMiddleware}
 }
 
 func (u *UserRoutes) RegisterRoutes() {
 	// Register routes here
 
-	routes := u.router.Group("users")
+	routes := u.router.Group("users", u.jwtMiddleware.Handle())
 
 	routes.GET("", u.controller.GetUsers)
 	routes.POST("", u.controller.CreateUser)
