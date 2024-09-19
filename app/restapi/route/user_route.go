@@ -29,8 +29,10 @@ func NewUserRoutes(params userRoutesParams) *UserRoutes {
 func (u *UserRoutes) RegisterRoutes() {
 	// Register routes here
 
-	routes := u.router.Group("users", u.jwtMiddleware.Handle())
+	userRoutes := u.router.Group("users")
+	userRoutes.POST("/login", u.controller.LoginUser)
 
-	routes.GET("", u.controller.GetUsers)
-	routes.POST("", u.controller.CreateUser)
+	userRoutesWithAuth := u.router.Group("users", u.jwtMiddleware.Handle())
+	userRoutesWithAuth.GET("", u.controller.GetUsers)
+	userRoutesWithAuth.POST("", u.controller.CreateUser)
 }

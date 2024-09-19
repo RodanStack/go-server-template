@@ -59,3 +59,24 @@ func (u *UserController) CreateUser(c *gin.Context) {
 
 	apires.Success(c, "Created user successfully", user)
 }
+
+func (u *UserController) LoginUser(c *gin.Context) {
+	u.logger.Info("UserController.LoginUser")
+
+	var req serializer.LoginUserRequest
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		u.logger.Errorf("Failed to bind request data: %v", err)
+		apires.Error(c, http.StatusBadRequest, "Invalid request data", err, "")
+		return
+	}
+
+	token, err := u.UserService.LoginUser(&req)
+	if err != nil {
+		u.logger.Errorf("Failed to login user: %v", err)
+		apires.Error(c, http.StatusInternalServerError, "Failed to login user", err, "")
+		return
+	}
+
+	apires.Success(c, "Logged in successfully", token)
+}

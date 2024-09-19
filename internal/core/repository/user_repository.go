@@ -40,3 +40,17 @@ func (r *UserRepository) CreateUser(userParams *sqlc.CreateUserParams) (*sqlc.Cr
 
 	return &user, nil
 }
+
+// GetRawUserByUsername returns a user by username.
+//
+// WARNING: This method returns the raw user with the password hash.
+func (r *Repository) GetRawUserByUsername(username string) (*sqlc.User, error) {
+	r.logger.Info("Repository.GetRawUserByUsername")
+
+	user, err := r.q.GetRawUserByUsername(context.Background(), username)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

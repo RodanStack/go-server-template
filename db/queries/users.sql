@@ -12,3 +12,8 @@ WHERE id = $1 LIMIT 1;
 INSERT INTO users (username, password, email, status)
 VALUES ($1, $2, $3, $4)
 RETURNING id, username, email, created_at, updated_at, status;
+
+-- name: GetRawUserByUsername :one
+SELECT *
+FROM users
+WHERE username = $1 LIMIT 1;

@@ -6,3 +6,8 @@ type CreateUserRequest struct {
 	Email    string `json:"email" binding:"required,email"`
 	Status   string `json:"status" binding:"required,oneof=active inactive suspended"`
 }
+
+type LoginUserRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}

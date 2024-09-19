@@ -11,10 +11,11 @@ import (
 type UserService struct {
 	logger   *logger.Logger
 	userRepo *repository.UserRepository
+	jwtAuth  *auth.JWT
 }
 
-func NewUserService(userRepo *repository.UserRepository, logger *logger.Logger) *UserService {
-	return &UserService{userRepo: userRepo, logger: logger}
+func NewUserService(userRepo *repository.UserRepository, logger *logger.Logger, jwtAuth *auth.JWT) *UserService {
+	return &UserService{userRepo: userRepo, logger: logger, jwtAuth: jwtAuth}
 }
 
 func (s *UserService) GetUsers() ([]sqlc.GetUsersRow, error) {
@@ -47,4 +48,24 @@ func (s *UserService) CreateUser(userData *serializer.CreateUserRequest) (*sqlc.
 	}
 
 	return user, nil
+}
+
+func (s *UserService) LoginUser(userData *serializer.LoginUserRequest) (string, error) {
+	s.logger.Info("UserService.LoginUser")
+
+	user, err := s.userRepo.GetRawUserByUsername(userData.Username)
+	if err != nil {
+		return "", err
+	}
+
+	if !auth.CheckPasswordHash(userData.Password, user.Password) {
+		return "", auth.ErrInvalidCredentials
+	}
+
+	generatedToken, err := s.jwtAuth.Generate(user.ID)
+	if err != nil {
+		return "", err
+	}
+
+	return generatedToken, nil
 }
