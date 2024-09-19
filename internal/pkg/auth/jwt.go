@@ -38,7 +38,7 @@ func (j *JWT) Validate(tokenStr string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrInvalidKey
 		}
-		return j.env.JWTSecretKey, nil
+		return []byte(j.env.JWTSecretKey), nil
 	})
 
 	return token, err
