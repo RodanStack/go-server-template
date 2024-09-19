@@ -1,8 +1,8 @@
-package routes
+package route
 
 import "go.uber.org/fx"
 
-type RouteCollection struct {
+type Collection struct {
 	fx.In
 
 	UserRoutes *UserRoutes
@@ -12,9 +12,9 @@ type Routes interface {
 	RegisterRoutes()
 }
 
-func NewRoutes(rc RouteCollection) []Routes {
+func NewRoutes(c Collection) []Routes {
 	return []Routes{
-		rc.UserRoutes,
+		c.UserRoutes,
 	}
 }
 

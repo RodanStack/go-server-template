@@ -1,7 +1,7 @@
-package routes
+package route
 
 import (
-	"go-server-template/app/restapi/controllers"
+	"go-server-template/app/restapi/controller"
 	"go-server-template/internal/infrastructure/http/router"
 
 	"go.uber.org/fx"
@@ -9,14 +9,14 @@ import (
 
 type UserRoutes struct {
 	router     *router.Router
-	controller *controllers.UserController
+	controller *controller.UserController
 }
 
 type userRoutesParams struct {
 	fx.In
 
 	Router     *router.Router
-	Controller *controllers.UserController
+	Controller *controller.UserController
 }
 
 func NewUserRoutes(params userRoutesParams) *UserRoutes {

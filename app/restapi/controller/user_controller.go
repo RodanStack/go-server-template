@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"go-server-template/internal/core/service"

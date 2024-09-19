@@ -1,8 +1,8 @@
 package restapi
 
 import (
-	"go-server-template/app/restapi/controllers"
-	"go-server-template/app/restapi/routes"
+	"go-server-template/app/restapi/controller"
+	"go-server-template/app/restapi/route"
 
 	"go.uber.org/fx"
 )
@@ -10,7 +10,7 @@ import (
 func NewModule() fx.Option {
 	return fx.Module(
 		"restapi",
-		controllers.NewModule(),
-		routes.NewModule(),
+		controller.NewModule(),
+		route.NewModule(),
 	)
 }
