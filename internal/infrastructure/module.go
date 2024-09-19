@@ -1,19 +1,15 @@
 package infrastructure
 
 import (
-	"go-server-template/internal/infrastructure/http/middleware"
-	"go-server-template/internal/infrastructure/http/router"
-	"go-server-template/internal/infrastructure/persistence/database"
+	"go-server-template/internal/infrastructure/http"
+	"go-server-template/internal/infrastructure/persistence"
 
 	"go.uber.org/fx"
 )
 
 func NewModule() fx.Option {
-	return fx.Options(
-		fx.Provide(
-			router.NewRouter,
-			database.NewDatabase,
-			middleware.NewModule,
-		),
-	)
+	return fx.Module("infrastructure", fx.Options(
+		http.NewModule(),
+		persistence.NewModule(),
+	))
 }
