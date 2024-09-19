@@ -63,8 +63,6 @@ func (d *Database) RunMigrations() {
 	if err := db.Close(); err != nil {
 		panic(err)
 	}
-
-	d.logger.Info("Migrations applied")
 }
 
 // alternative way to run migrations
