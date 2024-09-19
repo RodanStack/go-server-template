@@ -11,7 +11,7 @@ type JWT struct {
 	env *config.Env
 }
 
-func NewJWT(env *config.Env) *JWT {
+func newJWT(env *config.Env) *JWT {
 	return &JWT{
 		env: env,
 	}

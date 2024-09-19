@@ -5,8 +5,7 @@ import (
 	"errors"
 	"go-server-template/app/restapi"
 	"go-server-template/db"
-	"go-server-template/internal/core"
-	"go-server-template/internal/infrastructure"
+	"go-server-template/internal"
 	"go-server-template/internal/infrastructure/http/router"
 	"go-server-template/internal/infrastructure/persistence/database"
 	"go-server-template/pkg"
@@ -23,10 +22,9 @@ func RunRestAPI() {
 
 	opt := fx.Options(
 		pkg.NewModule(),
-		infrastructure.NewModule(),
-		restapi.NewModule(),
 		db.NewModule(),
-		core.NewModule(),
+		internal.NewModule(),
+		restapi.NewModule(),
 		fx.Invoke(
 			startServer,
 		),
