@@ -11,6 +11,7 @@ type Env struct {
 	DBUser             string
 	DBPassword         string
 	DBName             string
+	JWTSecretKey       string
 }
 
 func NewEnv() *Env {
@@ -35,5 +36,6 @@ func NewEnv() *Env {
 		DBUser:             viper.GetString("DB_USER"),
 		DBPassword:         viper.GetString("DB_PASSWORD"),
 		DBName:             viper.GetString("DB_NAME"),
+		JWTSecretKey:       viper.GetString("JWT_SECRET_KEY"),
 	}
 }
