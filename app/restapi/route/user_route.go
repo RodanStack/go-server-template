@@ -28,5 +28,6 @@ func (u *UserRoutes) RegisterRoutes() {
 
 	routes := u.router.Group("users")
 
-	routes.GET("/", u.controller.GetUsers)
+	routes.GET("", u.controller.GetUsers)
+	routes.POST("", u.controller.CreateUser)
 }

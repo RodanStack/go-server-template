@@ -25,3 +25,14 @@ func (s *UserService) GetUsers() ([]sqlc.GetUsersRow, error) {
 
 	return users, nil
 }
+
+func (s *UserService) CreateUser(userParams *sqlc.CreateUserParams) (*sqlc.CreateUserRow, error) {
+	s.logger.Info("UserService.CreateUser")
+
+	user, err := s.userRepo.CreateUser(userParams)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
