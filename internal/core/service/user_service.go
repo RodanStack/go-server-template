@@ -34,5 +34,5 @@ func (s *UserService) CreateUser(userParams *sqlc.CreateUserParams) (*sqlc.Creat
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }
